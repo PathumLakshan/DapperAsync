@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperAsync.GenericRepository.Classes;
+using DapperAsync.Repositories;
+using DapperAsync.Repositories.IRepositories;
+using GenericRepository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +29,19 @@ namespace DapperAsync
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IRepoPayment, PaymentRepo>();
+            services.AddTransient<IRepoCandidate, CandidateRepo>();
+            services.AddTransient<IRepoOwner, OwnerRepo>();
+            services.AddTransient<IRepoVehicle, VehicleRepo>();
+
+           services.AddTransient<IRepoTrainee, TraineeRepo>();
+           /*  services.AddTransient<IRepoCandidate, CandidateRepo>();
+            services.AddTransient<IRepoCandidate, CandidateRepo>();*/
+
+
+            //services.AddTransient<IRepository<T>, Repository<T>>() where T: class;
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -41,6 +58,7 @@ namespace DapperAsync
             }
 
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }

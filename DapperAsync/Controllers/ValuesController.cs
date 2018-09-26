@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperAsync.Models;
+using DapperAsync.Repositories.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperAsync.Controllers
@@ -10,6 +12,7 @@ namespace DapperAsync.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+     
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
