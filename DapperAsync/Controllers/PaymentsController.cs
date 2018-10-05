@@ -14,29 +14,35 @@ namespace DapperAsync.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly IRepoPayment _icontext;
+        private readonly IRepoPayment _iRepoPayment;
 
-        public PaymentsController(IRepoPayment icontext)
+        public PaymentsController(IRepoPayment iRepoPayment)
         {
-            _icontext = icontext;
+            _iRepoPayment = iRepoPayment;
         }
 
         [HttpGet]
-        public IEnumerable<Payment> GetAll()
+        public IEnumerable<dynamic> GetAll()
         {
-            return _icontext.GetPayments();
+            return _iRepoPayment.GetPayments();
         }
 
         [HttpPost]
         public int Post([FromBody] Payment payment)
         {
-            return _icontext.NewPayment(payment);
+            return _iRepoPayment.NewPayment(payment);
         }
 
         [HttpPut]
         public int Put([FromBody] Payment payment)
         {
-            return _icontext.updatePayment(payment);
+            return _iRepoPayment.updatePayment(payment);
+        }
+
+        [HttpDelete("{id}")]
+        public int Delete(int id)
+        {
+            return _iRepoPayment.deletePayment(id);
         }
     }
 }

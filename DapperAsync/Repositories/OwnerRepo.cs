@@ -28,6 +28,18 @@ namespace DapperAsync.Repositories
             }
         }
 
+        public int deleteOwner(int id)
+        {
+            string sql = "delete from owner where owner_id =@Id";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Close();
+                var res = conn.Execute(sql, param: new { Id = id });
+                conn.Close();
+                return res;
+            }
+        }
+
         public List<Owner> GetOwners()
         {
            using(IDbConnection conn = dbConnection)
@@ -52,9 +64,16 @@ namespace DapperAsync.Repositories
             }
         }
 
-        public bool updateOwner(Owner owner)
+        public int updateOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            string sql = "update owner set owner_name = @oname where owner_id = @oid";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { oname = owner.owner_name, oid = owner.owner_id });
+                conn.Close();
+                return res;
+            }
         }
     }
 }

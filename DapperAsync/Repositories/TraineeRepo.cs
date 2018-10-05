@@ -27,6 +27,18 @@ namespace DapperAsync.Repositories
             }
         }
 
+        public int deleteTrainee(int id)
+        {
+            string sql = "delete from trainee where reg_id =@Id";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { Id = id });
+                conn.Close();
+                return res;
+            }
+        }
+
         public List<Trainee> GetTrainees()
         {
             string sql = "select reg_id, trainee_name, join_date,[num.of.hours],training_type from trainee";

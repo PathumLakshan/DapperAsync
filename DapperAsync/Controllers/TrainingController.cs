@@ -11,36 +11,37 @@ namespace DapperAsync.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VehicleController : ControllerBase
+    public class TrainingController : ControllerBase
     {
-        private readonly IRepoVehicle _irepo;
+        private readonly IRepoTraining _iRepo;
 
-        public VehicleController(IRepoVehicle irepo)
+        public TrainingController(IRepoTraining iRepo)
         {
-            _irepo = irepo;
-        }
+            _iRepo = iRepo;
+        } 
 
         [HttpGet]
         public List<dynamic> Get()
         {
-            return _irepo.GetVehicles();
+            return _iRepo.GetTrainingSchedule();
         }
 
         [HttpPost]
-        public int Post([FromBody] Vehicle vehicle)
+        public int Post([FromBody] Training training)
         {
-            return _irepo.newVehicle(vehicle);
+            return _iRepo.newTrainingSchedule(training);
         }
+
         [HttpPut]
-        public int Put([FromBody] Vehicle vehicle)
+        public int Put([FromBody] Training training)
         {
-            return _irepo.updateVehicle(vehicle);
+            return _iRepo.updateTrainingSchedule(training);
         }
 
         [HttpDelete("{id}")]
         public int Delete(int id)
         {
-            return _irepo.deleteVehicle(id);
+            return _iRepo.deleteTraining(id);
         }
     }
 }

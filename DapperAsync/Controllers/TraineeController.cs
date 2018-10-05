@@ -13,23 +13,29 @@ namespace DapperAsync.Controllers
     [ApiController]
     public class TraineeController : ControllerBase
     {
-        private readonly IRepoTrainee _icontext;
+        private readonly IRepoTrainee _iRepoTrainee;
 
-        public TraineeController(IRepoTrainee icontext)
+        public TraineeController(IRepoTrainee iRepoTrainee)
         {
-            _icontext = icontext;
+            _iRepoTrainee = iRepoTrainee;
         }
 
         [HttpGet]
         public List<Trainee> GetAll()
         {
-            return _icontext.GetTrainees();
+            return _iRepoTrainee.GetTrainees();
         }
 
         [HttpPost]
         public int Post([FromBody] Trainee trainee)
         {
-            return _icontext.NewTrainee(trainee);
+            return _iRepoTrainee.NewTrainee(trainee);
+        }
+
+        [HttpDelete("{id}")]
+        public int Delete(int id)
+        {
+            return _iRepoTrainee.deleteTrainee(id);
         }
 
     }

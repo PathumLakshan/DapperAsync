@@ -8,8 +8,9 @@ namespace DapperAsync.Repositories.IRepositories
 {
     public interface IRepoVehicle
     {
-        List<Vehicle> GetVehicles();
+        List<dynamic> GetVehicles();
         int newVehicle(Vehicle vehicle);
         int updateVehicle(Vehicle vehicle);
+        int deleteVehicle(int id);
     }
 }

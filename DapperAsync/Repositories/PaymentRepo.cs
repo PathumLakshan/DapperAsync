@@ -27,13 +27,26 @@ namespace DapperAsync.Repositories
             }
         }
 
-        public IEnumerable<Payment> GetPayments()
+        public int deletePayment(int id)
+        {
+            string sql = "delete from payment where payment_id = @Id";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Close();
+                var res = conn.Execute(sql, param: new { Id = id });
+                conn.Close();
+                return res;
+            }
+        }
+
+        public IEnumerable<dynamic> GetPayments()
         {
             using(IDbConnection conn = dbConnection)
             {
-                string sql = "select paym.paid_date, paym.amount, trn.trainee_name from payment paym, trainee trn, payment_type p_type where paym.trainee_id = trn.reg_id ;";
+                string sql = "select paym.paid_date, paym.amount, trn.trainee_name " +
+                    "from payment paym, trainee trn, payment_type p_type where paym.trainee_id = trn.reg_id ;";
                 conn.Open();
-                var res = conn.Query<Payment>(sql);
+                var res = conn.Query<dynamic>(sql);
 
                 conn.Close();
                 return res;

@@ -13,6 +13,7 @@ namespace DapperAsync.Repositories.IRepositories
     {
         List<Owner> GetOwners();
         int NewOwner(Owner owner);
-        bool updateOwner(Owner owner);
+        int updateOwner(Owner owner);
+        int deleteOwner(int id);
     }
 }

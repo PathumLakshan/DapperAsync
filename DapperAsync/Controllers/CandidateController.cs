@@ -28,11 +28,11 @@ namespace DapperAsync.Controllers
         }
 
         // GET: api/Candidate/5
-        [HttpGet("{id}", Name = "Get")]
+       /* [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
             return "value";
-        }
+        }*/
 
         // POST: api/Candidate
         [HttpPost]
@@ -43,15 +43,16 @@ namespace DapperAsync.Controllers
 
         // PUT: api/Candidate/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody] Candidate candidate)
+        public int Put([FromBody] Candidate candidate)
         {
             return _iRepo.updateCandidate(candidate);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public int Delete(int id)
         {
+            return _iRepo.deleteCandidate(id);
         }
     }
 }
