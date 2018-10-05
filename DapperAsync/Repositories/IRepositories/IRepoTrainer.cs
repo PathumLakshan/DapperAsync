@@ -6,10 +6,11 @@ using DapperAsync.Models;
 
 namespace DapperAsync.Repositories.IRepositories
 {
-    interface IRepoTrainer
+    public interface IRepoTrainer
     {
         List<Trainer> GetTrainers();
         int NewTrainer(Trainer trainer);
-        bool updateTrainer(Trainer trainer);
+        int updateTrainer(Trainer trainer);
+        int deleteTrainer(int id);
     }
 }

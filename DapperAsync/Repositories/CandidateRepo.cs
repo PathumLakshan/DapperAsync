@@ -40,6 +40,18 @@ namespace DapperAsync.Repositories
             }
         }
 
+        public int deleteCandidate(int id)
+        {
+            string sql = "delete from candidate where c_id = @Id";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { Id = id });
+                conn.Close();
+                return res;
+            }
+        }
+
         public List<Candidate> GetCandidates()
         {
             using(IDbConnection conn= dbConnection)
@@ -52,9 +64,17 @@ namespace DapperAsync.Repositories
             }
         }
 
-        public bool updateCandidate(Candidate candidate)
+        public int updateCandidate(Candidate candidate)
         {
-            throw new NotImplementedException();
+
+            string sql = "update candidate set c_name = @cname, c_tele_no = @ctel where c_id = @cid";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { cname = candidate.c_name, ctel = candidate.c_tele_no, cid = candidate.c_id });
+                conn.Close();
+                return res;
+            }
         }
     }
 }

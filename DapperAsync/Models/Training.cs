@@ -10,7 +10,7 @@ namespace DapperAsync.Models
     {
         public int v_id { get; set; }
         public int trainer_id { get; set; }
-        public int trinee_id { get; set; }
+        public int trainee_id { get; set; }
         public DateTime start_time { get; set; }
         public DateTime end_time { get; set; }
         public DateTime date { get; set; }
@@ -19,7 +19,11 @@ namespace DapperAsync.Models
 
         [ForeignKey("trainee_id")]
         public Trainee Trainee { get; set; }
+
         [ForeignKey("v_id")]
         public Vehicle Vehicle { get; set; }
+
+        [ForeignKey("trainer_id")]
+        public Trainer Trainer { get; set; }
     }
 }

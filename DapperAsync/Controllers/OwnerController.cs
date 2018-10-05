@@ -28,10 +28,22 @@ namespace DapperAsync.Controllers
 
         }
 
-        //[HttpPost]
-       /* public int AddOwner([FromBody]Owner owner)
+        [HttpPost]
+        public int AddOwner([FromBody]Owner owner)
         {
-            //return _iRepo.NewOwner(owner);
-        }*/
+            return _iownerRepo.NewOwner(owner);
+        }
+
+        [HttpPut]
+        public int Put([FromBody] Owner owner)
+        {
+            return _iownerRepo.updateOwner(owner);
+        }
+
+        [HttpDelete("{id}")]
+        public int Delete(int id)
+        {
+            return _iownerRepo.deleteOwner(id);
+        }
     }
 }

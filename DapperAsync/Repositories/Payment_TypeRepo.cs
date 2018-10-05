@@ -28,11 +28,23 @@ namespace DapperAsync.Repositories
             }
         }
 
+        public int deletePaymet_Type(int id)
+        {
+            string sql = "delete from payment_type where type_id = @Id";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { Id = id });
+                conn.Close();
+                return res;
+            }
+        }
+
         public List<Payment_Type> GetPayment_Types()
         {
            using(IDbConnection conn = dbConnection)
             {
-                string sql = "select paym_type, desc from payment_type";
+                string sql = "select type_id,paym_type, desc from payment_type";
                 conn.Open();
                 var res = conn.Query<Payment_Type>(sql).ToList();
                 conn.Close();
@@ -52,9 +64,16 @@ namespace DapperAsync.Repositories
             }
         }
 
-        public bool updatePayment_Type(Payment_Type payment_Type)
+        public int updatePayment_Type(Payment_Type payment_Type)
         {
-            throw new NotImplementedException();
+            string sql = "update payment_type set paym_type = @ptype, desc = @des where type_id = @tid";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res =  conn.Execute(sql, param: new { ptype = payment_Type.paym_type, des = payment_Type.desc, tid = payment_Type.type_id });
+                conn.Close();
+                return res;
+            }
         }
     }
 }

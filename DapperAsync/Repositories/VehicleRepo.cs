@@ -28,15 +28,27 @@ namespace DapperAsync.Repositories
             }
         }
 
-        public List<Vehicle> GetVehicles()
+        public int deleteVehicle(int id)
+        {
+            string sql = "delete from vehicle where v_id=@vid";
+            using(IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.Execute(sql, param: new { vid = id });
+                conn.Close();
+                return res;
+            }
+        }
+
+        public List<dynamic> GetVehicles()
         {
             using(IDbConnection conn = dbConnection)
             {
                 string sql = "select v.v_reg,v.description, o.owner_name from vehicle v, owner o where v.owner_id = o.owner_id;";
                 conn.Open();
-                var res = conn.Query<Vehicle>(sql);
+                var res = conn.Query<dynamic>(sql);
                 conn.Close();
-                return res.ToList<Vehicle>();
+                return res.ToList<dynamic>();
             }
             
         }

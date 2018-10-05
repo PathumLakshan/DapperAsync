@@ -35,10 +35,10 @@ namespace DapperAsync
             services.AddTransient<IRepoVehicle, VehicleRepo>();
 
            services.AddTransient<IRepoTrainee, TraineeRepo>();
-           /*  services.AddTransient<IRepoCandidate, CandidateRepo>();
-            services.AddTransient<IRepoCandidate, CandidateRepo>();*/
+           services.AddTransient<IRepoTraining, TrainingRepo>();
+           services.AddTransient<IRepoTrainer, TrainerRepo>();
 
-
+            services.AddCors();
             //services.AddTransient<IRepository<T>, Repository<T>>() where T: class;
 
 
@@ -56,6 +56,11 @@ namespace DapperAsync
             {
                 app.UseHsts();
             }
+            app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
 
             app.UseHttpsRedirection();
 

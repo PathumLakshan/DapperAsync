@@ -8,8 +8,9 @@ namespace DapperAsync.Repositories.IRepositories
 {
     public interface IRepoPayment
     {
-        IEnumerable<Payment> GetPayments();
+        IEnumerable<dynamic> GetPayments();
         int NewPayment(Payment payment);
         int updatePayment(Payment payment);
+        int deletePayment(int id);
     }
 }
