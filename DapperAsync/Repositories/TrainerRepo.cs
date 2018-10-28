@@ -13,6 +13,7 @@ namespace DapperAsync.Repositories
 {
     public class TrainerRepo : IRepoTrainer
     {
+        #region Configuratoins
         private readonly IConfiguration _config;
 
         public TrainerRepo(IConfiguration config)
@@ -27,10 +28,14 @@ namespace DapperAsync.Repositories
                 return new SqlConnection(_config.GetConnectionString("MyConnString"));
             }
         }
+        #endregion
+
+        #region ControllerMethods
+        // Methods for Controller
 
         public List<Trainer> GetTrainers()
         {
-            string sql = "select trainer_id,trainer_name from trainer";
+            string sql = "select trainer_id,trainer_name,trainer_nic,trainer_address from trainer";
             using(IDbConnection conn = dbConnection)
             {
                 conn.Open();
@@ -43,14 +48,15 @@ namespace DapperAsync.Repositories
 
         public int NewTrainer(Trainer trainer)
         {
-            string sql = "insert into trainer ( trainer_name) values ( @name)";
+            string sql = "insert into trainer (trainer_name,trainer_nic,trainer_address) values (@name,@nic,@adrs)";
             using(IDbConnection conn = dbConnection)
             {
                 conn.Open();
                 var res = conn.Execute(sql, param: new
                 {
-                    //id = trainer.trainer_id,
-                    name = trainer.trainer_name
+                    name = trainer.trainer_name,
+                    nic = trainer.trainer_nic,
+                    adrs = trainer.trainer_address
                 });
                 conn.Close();
                 return res;
@@ -59,11 +65,17 @@ namespace DapperAsync.Repositories
 
         public int updateTrainer(Trainer trainer)
         {
-            string sql = "update trainer set trainer_name = @tname where trainer_id = @tid";
+            string sql = "update trainer set trainer_name = @tname, trainer_nic = @nic, trainer_address = @adrs where trainer_id = @tid";
             using(IDbConnection conn = dbConnection)
             {
                 conn.Open();
-                var res = conn.Execute(sql, param: new { tname = trainer.trainer_name, tid = trainer.trainer_id });
+                var res = conn.Execute(sql, 
+                    param: new {
+                        tid = trainer.trainer_id,
+                        tname = trainer.trainer_name,
+                        nic = trainer.trainer_nic,
+                        adrs = trainer.trainer_address                        
+                    });
                 conn.Close();
                 return res;
             }
@@ -80,6 +92,23 @@ namespace DapperAsync.Repositories
                 return res;
             }
         }
+        #endregion
 
+        #region BLLMethods
+        // methods for BLL
+
+        public bool TrainerbyName(string name)
+        {
+            string sql = "select case when exists(select * from [dbo].trainer where trainer_name = @namepara ) then cast(1 as bit) else cast(0 as bit )end";
+            using (IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.ExecuteScalar(sql, param: new { namepara = name }).ToString();
+                conn.Close();
+                return Boolean.Parse(res); ;
+            }
+        }
+
+        #endregion
     }
 }

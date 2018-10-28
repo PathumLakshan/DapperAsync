@@ -13,6 +13,7 @@ namespace DapperAsync.Repositories
 {
     public class TrainingRepo : IRepoTraining
     {
+        #region Configurations
         private readonly IConfiguration _config;
 
         public TrainingRepo(IConfiguration config)
@@ -27,7 +28,9 @@ namespace DapperAsync.Repositories
                 return new SqlConnection(_config.GetConnectionString("MyConnString"));
             }
         }
+        #endregion
 
+        #region ControllerMethods
         public int deleteTraining(int id)
         {
             string sql = "delete from training where trainer_id =@Id";
@@ -105,5 +108,11 @@ namespace DapperAsync.Repositories
                 return res;
             }
         }
+
+        #endregion
+
+        #region BLLMethods
+
+        #endregion
     }
 }

@@ -2,23 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperAsync.BLL;
 using DapperAsync.Models;
 using DapperAsync.Repositories;
 using DapperAsync.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace DapperAsync.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OwnerController : Controller
     {
-        public IRepoOwner _iownerRepo;
-        public OwnerController(IRepoOwner iownerRepo)
+        private readonly IRepoOwner _iownerRepo;
+        private readonly IMasterRecBLL _masterRecBLL;
+
+        public OwnerController(IRepoOwner iownerRepo,IMasterRecBLL masterRecBLL)
         {
             _iownerRepo = iownerRepo;
+            _masterRecBLL = masterRecBLL;
         }
 
         [HttpGet]
@@ -29,15 +35,29 @@ namespace DapperAsync.Controllers
         }
 
         [HttpPost]
-        public int AddOwner([FromBody]Owner owner)
+        public string AddOwner([FromBody]Owner owner)
         {
-            return _iownerRepo.NewOwner(owner);
+            if (!_masterRecBLL.Owner_isExsiting(owner.owner_name))
+            {
+                return _iownerRepo.NewOwner(owner).ToString();
+            }
+            else
+            {
+                return "Record Already Exists!";
+            }
         }
 
         [HttpPut]
-        public int Put([FromBody] Owner owner)
+        public string Put([FromBody] Owner owner)
         {
-            return _iownerRepo.updateOwner(owner);
+            if (_masterRecBLL.Owner_isExsiting(owner.owner_name))
+            {
+                return _iownerRepo.updateOwner(owner).ToString();
+            }
+            else
+            {
+                return "No Such a Record !";
+            }
         }
 
         [HttpDelete("{id}")]

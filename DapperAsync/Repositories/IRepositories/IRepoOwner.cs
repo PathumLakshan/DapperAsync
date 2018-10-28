@@ -15,5 +15,7 @@ namespace DapperAsync.Repositories.IRepositories
         int NewOwner(Owner owner);
         int updateOwner(Owner owner);
         int deleteOwner(int id);
+
+        bool OwnerbyName(string name);
     }
 }

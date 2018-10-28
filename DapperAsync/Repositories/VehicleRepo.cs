@@ -13,6 +13,8 @@ namespace DapperAsync.Repositories
 {
     public class VehicleRepo : IRepoVehicle
     {
+        #region Configurations
+
         private readonly IConfiguration _config;
 
         public VehicleRepo(IConfiguration config)
@@ -28,6 +30,9 @@ namespace DapperAsync.Repositories
             }
         }
 
+        #endregion
+
+        #region ControllerMethods
         public int deleteVehicle(int id)
         {
             string sql = "delete from vehicle where v_id=@vid";
@@ -44,7 +49,7 @@ namespace DapperAsync.Repositories
         {
             using(IDbConnection conn = dbConnection)
             {
-                string sql = "select v.v_reg,v.description, o.owner_name from vehicle v, owner o where v.owner_id = o.owner_id;";
+                string sql = "select v.v_id,v.v_reg,v.description, o.owner_name from vehicle v, owner o where v.owner_id = o.owner_id;";
                 conn.Open();
                 var res = conn.Query<dynamic>(sql);
                 conn.Close();
@@ -77,7 +82,23 @@ namespace DapperAsync.Repositories
             }
 
         }
-    }
 
-    
+        #endregion
+
+        #region BLLMethods
+
+        public bool VehiclebyRegNo(string regNo)
+        {
+            string sql = "select case when exists(select * from [dbo].vehicle where v_reg = @Vreg ) then cast(1 as bit) else cast(0 as bit )end";
+            using (IDbConnection conn = dbConnection)
+            {
+                conn.Open();
+                var res = conn.ExecuteScalar(sql, param: new { Vreg = regNo }).ToString();
+                conn.Close();
+                return Boolean.Parse(res);
+            }
+        }
+
+        #endregion
+    }
 }

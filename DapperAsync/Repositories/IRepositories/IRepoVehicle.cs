@@ -12,5 +12,7 @@ namespace DapperAsync.Repositories.IRepositories
         int newVehicle(Vehicle vehicle);
         int updateVehicle(Vehicle vehicle);
         int deleteVehicle(int id);
+
+        bool VehiclebyRegNo(string regNo);
     }
 }

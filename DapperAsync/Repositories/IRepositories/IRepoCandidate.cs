@@ -12,5 +12,7 @@ namespace DapperAsync.Repositories.IRepositories
         int AddNewCandidate(Candidate candidate);
         int updateCandidate(Candidate candidate);
         int deleteCandidate(int id);
+
+        bool CandidatebyName(string name);
     }
 }

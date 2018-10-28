@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +10,23 @@ namespace DapperAsync.Models
     public class Trainee
     {
         public int reg_id { get; set; }
+
+        [Required,MaxLength(50),MinLength(10)]
         public string trainee_name { get; set; }
+
+        [Required]
         public DateTime join_date { get; set; }
+
+        [Required]
         public float no_of_hours { get; set; }
+
         public int cand_id { get; set; }
+
+        [Required, MaxLength(10), MinLength(5)]
         public string training_type { get; set; }
+
+        [Required, MaxLength(20), MinLength(10)]
+        public string trainee_nic { get; set; }
 
         public List<Payment> Payments { get; set; }
 

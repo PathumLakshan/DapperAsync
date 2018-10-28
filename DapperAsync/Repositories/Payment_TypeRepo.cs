@@ -44,7 +44,7 @@ namespace DapperAsync.Repositories
         {
            using(IDbConnection conn = dbConnection)
             {
-                string sql = "select type_id,paym_type, desc from payment_type";
+                string sql = "select type_id,paym_type,[desc],amount from payment_type";
                 conn.Open();
                 var res = conn.Query<Payment_Type>(sql).ToList();
                 conn.Close();

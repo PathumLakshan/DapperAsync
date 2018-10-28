@@ -2,46 +2,68 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperAsync.BLL;
 using DapperAsync.Models;
 using DapperAsync.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace DapperAsync.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TrainerController : ControllerBase
     {
-        private readonly IRepoTrainer _iRepo;
+        private readonly IRepoTrainer _iRepoTrainee;
+        private readonly IMasterRecBLL _masterRecBLL;
 
-        public TrainerController(IRepoTrainer repo)
+        public TrainerController(IRepoTrainer iRepoTrainee, IMasterRecBLL masterRecBLL)
         {
-            _iRepo = repo;
+            _iRepoTrainee = iRepoTrainee;
+            _masterRecBLL = masterRecBLL;
         }
 
         [HttpGet]
         public List<Trainer> Get()
         {
-            return _iRepo.GetTrainers();
+            return _iRepoTrainee.GetTrainers();
         }
 
         [HttpPost]
-        public int Post([FromBody] Trainer trainer)
+        public string Post([FromBody] Trainer trainer)
         {
-            return _iRepo.NewTrainer(trainer);
+            if (!_masterRecBLL.Trainer_isExsiting(trainer.trainer_name))
+            {
+                return _iRepoTrainee.NewTrainer(trainer).ToString();
+            }
+            else
+            {
+                return "Already Exists !";
+            }
+            
         }
 
         [HttpPut]
-        public int Put([FromBody] Trainer trainer)
+        public string Put([FromBody] Trainer trainer)
         {
-            return _iRepo.updateTrainer(trainer);
+            if (_masterRecBLL.Trainer_isExsiting(trainer.trainer_name))
+            {
+                return _iRepoTrainee.updateTrainer(trainer).ToString();
+            }
+            else
+            {
+                return "No Such a Record !";
+            }
+            
         }
 
         [HttpDelete("{id}")]
         public int Delete(int id)
         {
-            return _iRepo.deleteTrainer(id);
+            return _iRepoTrainee.deleteTrainer(id);
         }
     }
 }
